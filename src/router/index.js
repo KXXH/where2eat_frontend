@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Baseline from '../views/Baseline.vue'
+
+
 
 Vue.use(VueRouter)
 
@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: ()=>import('../views/Restaurant.vue')
   },
   {
     path: '/about',
@@ -22,7 +22,12 @@ const routes = [
   {
     path:'/baseline',
     name:'baseline',
-    component:Baseline
+    component:()=>import('../views/Baseline.vue')
+  },
+  {
+    path:'/restaurant',
+    name:'restaurant',
+    component:()=>import('../views/Restaurant.vue')
   }
 ]
 
