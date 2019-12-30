@@ -19,7 +19,8 @@
                 
             </v-list>
         </v-card>
-        <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length">开始抽奖!</v-btn>
+        <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="mx-2">开始抽奖!</v-btn>
+        <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="mx-2">清空记录</v-btn>
         <ve-histogram :data="stat"/>
     </div>
     
