@@ -1,5 +1,6 @@
 <template>
     <div>
+<<<<<<< Updated upstream
         <v-card
             class="mx-auto"
             max-width="400"
@@ -21,6 +22,11 @@
         </v-card>
         <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="mx-2">开始抽奖!</v-btn>
         <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="mx-2">清空记录</v-btn>
+=======
+        <RestaurantList class="mx-auto" v-model="selected" multiple></RestaurantList>
+        <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="ma-2">开始抽奖!</v-btn>
+        <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="ma-2">清空记录</v-btn>
+>>>>>>> Stashed changes
         <ve-histogram :data="stat"/>
     </div>
     
@@ -29,16 +35,19 @@
 <script>
 import _ from 'lodash';
 import VeHistogram from 'v-charts/lib/histogram.common'
+import RestaurantList from './RestaurantList'
+import { mapState } from 'vuex';
 export default {
     name:"RestaurantPick",
     components:{
-        've-histogram':VeHistogram
+        've-histogram':VeHistogram,
+        RestaurantList
     },
     data:()=>({
-        target:['南门','资本','食堂','北京华联'],
         selected:[],
         count:0,
-        history:[]
+        history:[],
+        test:0
     }),
     methods:{
         pick:function(){
@@ -54,7 +63,10 @@ export default {
                 columns:['名称','计数'],
                 rows:names.map((name)=>({"名称":name,"计数":counts[name]}))
             }
-        }
+        },
+        ...mapState({
+            target:"restaurant_list"
+        })
     }
 
 }
