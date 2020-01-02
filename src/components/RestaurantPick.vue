@@ -1,32 +1,8 @@
 <template>
     <div>
-<<<<<<< Updated upstream
-        <v-card
-            class="mx-auto"
-            max-width="400"
-            tile
-        >
-            <v-list>
-                <v-list-item-group
-                    v-model="selected"
-                    multiple
-                >
-                    <v-list-item v-for="r in target" :key="r">
-                        <v-list-item-content>
-                            <v-list-item-title>{{r}}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-group>
-                
-            </v-list>
-        </v-card>
-        <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="mx-2">开始抽奖!</v-btn>
-        <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="mx-2">清空记录</v-btn>
-=======
         <RestaurantList class="mx-auto" v-model="selected" multiple></RestaurantList>
         <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="ma-2">开始抽奖!</v-btn>
         <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="ma-2">清空记录</v-btn>
->>>>>>> Stashed changes
         <ve-histogram :data="stat"/>
     </div>
     
