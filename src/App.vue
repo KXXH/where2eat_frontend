@@ -16,7 +16,7 @@
         </v-list-item>
         <v-list-item link to="/record">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-send</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>发送记录</v-list-item-title>
@@ -24,7 +24,7 @@
         </v-list-item>
         <v-list-item link to="/history">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-timeline</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>查看记录</v-list-item-title>
