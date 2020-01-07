@@ -2,8 +2,10 @@
     <div>
         <RestaurantList class="mx-auto" v-model="selected" multiple></RestaurantList>
         <v-btn color="primary" v-on:click="pick" v-bind:disabled="!selected.length" class="ma-2">开始抽奖!</v-btn>
-        <v-btn color="warning" v-on:click="history=selected=[];" v-bind:disabled="!selected.length" class="ma-2">清空记录</v-btn>
+        <v-btn color="warning" v-on:click="selected.forEach(clear);history=selected=[];" v-bind:disabled="!selected.length" class="ma-2">清空记录</v-btn>
         <ve-histogram :data="stat"/>
+        <Sunburst :history="stat2()"/>
+
     </div>
     
 </template>
@@ -12,12 +14,16 @@
 import _ from 'lodash';
 import VeHistogram from 'v-charts/lib/histogram.common'
 import RestaurantList from './RestaurantList'
+import Sunburst from './Sunburst'
 import { mapState } from 'vuex';
+
+
 export default {
     name:"RestaurantPick",
     components:{
         've-histogram':VeHistogram,
-        RestaurantList
+        RestaurantList,
+        Sunburst
     },
     data:()=>({
         selected:[],
@@ -27,13 +33,47 @@ export default {
     }),
     methods:{
         pick:function(){
-            let i = Math.floor(Math.random()*this.selected.length);
-            this.history.unshift(this.target[this.selected[i]]);
+            let picked=_.sample(this.selected);
+            this.history.unshift(picked.name);
+            if(!picked.count) picked.count=0;
+            picked.count++;
+            let childPick=_.sample(picked.children);
+            if(!childPick.count) childPick.count=0;
+            childPick.count++;
+        },
+        get_stat(data){
+            data.forEach((x)=>{
+                if(x.count==undefined){
+                    x.count=0;
+                }
+                x.children.forEach((x)=>{
+                    if(x.count==undefined){
+                        x.count=0;
+                    }
+                });
+            });//规范化数据
+            var normal_2=(x)=>({
+                name:x.name,
+                value:x.count,
+                children:x.children?x.children.map(normal_2):null
+            });
+            var ans=_.map(data,normal_2);
+            return ans;
+        },
+        stat2(){
+            let data=this.get_stat(this.selected);
+            return data;
+        },
+        clear(target){
+            target.count=0;
+            if(target.children){
+                target.children.forEach(this.clear);
+            }
         }
     },
     computed:{
         stat:function(){
-            let names=this.selected.map((i)=>this.target[i]);
+            let names=this.selected.map((i)=>i.name);
             let counts=_.countBy(this.history);
             return {
                 columns:['名称','计数'],
@@ -42,8 +82,11 @@ export default {
         },
         ...mapState({
             target:"restaurant_list"
-        })
-    }
+        }),
+        
+    },
+
 
 }
+
 </script>

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    restaurant_list:['南门','资本','食堂','北京华联'],
+    restaurant_list:undefined,
     token:undefined,
     username:undefined
   },
