@@ -36,6 +36,7 @@
         </v-card>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
     props: ['value','multiple'],
     data:()=>({
@@ -58,16 +59,18 @@ export default {
         }
     },
     mounted(){
-        //此处有问题，由于餐馆信息是异步获取的，因此这里取数据是有可能取不到的。待处理
-        this.target=this.$store.state.restaurant_list.map((x)=>{
-                let {...y}=x;
+        this.fetchRestaurant().then(()=>{
+            this.target=this.$store.state.restaurant_list.map((x)=>{
+                let y=JSON.parse(JSON.stringify(x));
                 
                 y.isActive=false;
                 y.old=false;
                 y.children=y.children.map((y)=>({name:String(y),isActive:false}));
                 return y;
         });
-        
+        }
+        )
+        //此处有问题，由于餐馆信息是异步获取的，因此这里取数据是有可能取不到的。待处理
         //this.sel=this.target.map(()=>false);
     },
     methods:{
@@ -79,7 +82,8 @@ export default {
             }
             target.old=true;
             this.$emit('input', this.selected);
-        }
+        },
+        ...mapActions(['fetchRestaurant'])
     }
 
 }
